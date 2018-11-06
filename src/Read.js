@@ -2,15 +2,19 @@ import React, { Component } from 'react'
 
 class Read extends Component {
   render() {
+    let showingBooks = this.props.read
+
     return (
       <div className="bookshelf">
         <h2 className="bookshelf-title">Read</h2>
         <div className="bookshelf-books">
           <ol className="books-grid">
-            <li>
+
+          {showingBooks.map((read) => (
+            <li key={read.id}>
               <div className="book">
                 <div className="book-top">
-                  <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: 'url("http://books.google.com/books/content?id=pD6arNyKyi8C&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE70Rw0CCwNZh0SsYpQTkMbvz23npqWeUoJvVbi_gXla2m2ie_ReMWPl0xoU8Quy9fk0Zhb3szmwe8cTe4k7DAbfQ45FEzr9T7Lk0XhVpEPBvwUAztOBJ6Y0QPZylo4VbB7K5iRSk&source=gbs_api")' }}></div>
+                  <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${read.imageLinks.thumbnail})` }} />
                   <div className="book-shelf-changer">
                     <select>
                       <option value="move" disabled>Move to...</option>
@@ -21,11 +25,13 @@ class Read extends Component {
                     </select>
                   </div>
                 </div>
-                <div className="book-title">The Hobbit</div>
-                <div className="book-authors">J.R.R. Tolkien</div>
+                <div className="book-title">{read.title}</div>
+                <div className="book-authors">{read.authors}</div>
               </div>
             </li>
-            <li>
+          ))}
+
+      {/*       <li>
               <div className="book">
                 <div className="book-top">
                   <div className="book-cover" style={{ width: 128, height: 174, backgroundImage: 'url("http://books.google.com/books/content?id=1q_xAwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE712CA0cBYP8VKbEcIVEuFJRdX1k30rjLM29Y-dw_qU1urEZ2cQ42La3Jkw6KmzMmXIoLTr50SWTpw6VOGq1leINsnTdLc_S5a5sn9Hao2t5YT7Ax1RqtQDiPNHIyXP46Rrw3aL8&source=gbs_api")' }}></div>
@@ -60,7 +66,7 @@ class Read extends Component {
                 <div className="book-title">The Adventures of Tom Sawyer</div>
                 <div className="book-authors">Mark Twain</div>
               </div>
-            </li>
+            </li> */}
           </ol>
         </div>
       </div>
