@@ -9,6 +9,8 @@ class SearchBooks extends Component {
     query:''
   }
 
+
+
   updateQuery = (query) => {
     this.setState({ query: query.trim()})
   }
@@ -45,7 +47,11 @@ class SearchBooks extends Component {
               type="text"
               placeholder="Search by title or author"
               value={query}
-              onChange={(event) => this.updateQuery(event.target.value)}/>
+              onChange={(event) => {
+                this.props.search(event.target.value)
+                this.updateQuery(event.target.value)
+             }}
+               />
 
           </div>
         </div>
