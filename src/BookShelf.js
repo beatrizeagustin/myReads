@@ -8,7 +8,7 @@ class BookShelf extends Component {
         <h2 className="bookshelf-title">Want to Read</h2>
         <div className="bookshelf-books">
           <ol className="books-grid">
-            <Book/>
+            <Book onShelf={this.state.onShelf}/>
           </ol>
         </div>
       </div>
