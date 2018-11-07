@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-/* import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types' */
+import { Link } from 'react-router-dom'
+/* import PropTypes from 'prop-types' */
 import escapeRegExp from 'escape-string-regexp'
 /* import sortBy from 'sort-by' */
 
@@ -9,8 +9,6 @@ class SearchBooks extends Component {
     query:''
   }
 
-
-
   updateQuery = (query) => {
     this.setState({ query: query.trim()})
   }
@@ -18,6 +16,7 @@ class SearchBooks extends Component {
   clearQuery = () => {
     this.setState({ query: ''})
   }
+
   render() {
     const { books } = this.props
     const { query } = this.state
@@ -33,7 +32,8 @@ class SearchBooks extends Component {
     return (
       <div className="search-books">
         <div className="search-books-bar">
-          <a className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</a>
+        {/* route back to home page */}
+          <Link className='close-search' to='/'>Close</Link>
           <div className="search-books-input-wrapper">
             {/*
               NOTES: The search from BooksAPI is limited to a particular set of search terms.
