@@ -8,27 +8,29 @@ import './App.css'
 class BooksApp extends Component {
   state = {
       query: '',
-      books: []
+      searchBooks: [],
+    /*  showingBooks: [] */
   }
 
-  componentDidMount() {
+/*  componentDidMount() {
     BooksAPI.getAll()
-        .then((books) => {
+        .then((searchBooks) => {
           this.setState({
-            books
+            searchBooks
           });
       });
 
-    }
+    } */
 
-  /* Controls */
-  addBook(book) {
-    BooksAPI.update(book).then(book => {
-      this.setState(state => ({
-        wantToRead: state.wantToRead.concat([ book ])
-      }))
-    })
+  /* Controls wantToRead: state.wantToRead.concat([ book ]) */
+searches = (query) => {
+    BooksAPI.search(query).then(response => {
+      this.setState({
+        searchBooks: response
+      });
+    });
   }
+
 
 
   render() {
@@ -39,7 +41,9 @@ class BooksApp extends Component {
         )}/>
         <Route path='/search' render={() => (
           <SearchBooks
-            books={this.state.books}/>
+            searchBooks={this.state.searchBooks}
+            searches = {this.searches}
+            query = {this.state.query}/>
         )}/>
       </div>
     )

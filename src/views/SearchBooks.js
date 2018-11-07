@@ -6,10 +6,6 @@ import escapeRegExp from 'escape-string-regexp'
 import Book from '../Components/Book'
 
 class SearchBooks extends Component {
-  state ={
-    query:''
-  }
-
   updateQuery = (query) => {
     this.setState({ query: query.trim()})
   }
@@ -19,15 +15,15 @@ class SearchBooks extends Component {
   }
 
   render() {
-    const { books } = this.props
-    const { query } = this.state
-    let showingBooks
+    const { searchBooks } = this.props
+    const { query } = this.props
+    let showingBooks = []
 
     if (query) {
       const match = new RegExp(escapeRegExp(query), 'i')
-      showingBooks = books.filter((book) => match.test([book.title, book.authors]))
+      showingBooks = searchBooks.filter((book) => match.test([book.title, book.authors]))
     } else {
-      showingBooks = books
+      showingBooks = searchBooks
     }
 
     return (
@@ -43,12 +39,14 @@ class SearchBooks extends Component {
 
               However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
               you don't find a specific author or title. Every search is limited by search terms.
+              this.updateQuery(event.target.value)
             */}
             <input
               type="text"
               placeholder="Search by title or author"
               value={query}
               onChange={(event) => {
+                this.props.searches(event.target.value)
                 this.updateQuery(event.target.value)
              }}
                />
