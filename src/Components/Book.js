@@ -2,11 +2,9 @@ import React, { Component } from 'react'
 
 class Book extends Component {
   render() {
-      const { set } = this.props
-      let showingBooks
+    let showingBooks
 
-      showingBooks = set
-
+    showingBooks = this.props.set
     return (
 
       <ol className="books-grid">

@@ -23,7 +23,7 @@ componentDidMount() {
         this.setState({
           books: books
         });
-        console.log(books)
+
     });
   }
 
@@ -38,8 +38,8 @@ getBooks(name){
           <h1>MyReads</h1>
         </div>
         <div className="list-books-content">
-            {this.shelves.map((bookshelf) => (
-						  <div key={bookshelf.id}>
+            {this.shelves.map((bookshelf, i) => (
+						  <div key={i}>
 				 				<BookShelf
                   title={bookshelf.title}
 							    shelfBooks={this.getBooks(bookshelf.shelf)}

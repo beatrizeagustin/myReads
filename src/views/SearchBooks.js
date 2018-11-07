@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 /* import PropTypes from 'prop-types' */
 import escapeRegExp from 'escape-string-regexp'
 /* import sortBy from 'sort-by' */
+import Book from '../Components/Book'
 
 class SearchBooks extends Component {
   state ={
@@ -24,7 +25,7 @@ class SearchBooks extends Component {
 
     if (query) {
       const match = new RegExp(escapeRegExp(query), 'i')
-      showingBooks = books.filter((book) => match.test(book.title && book.authors))
+      showingBooks = books.filter((book) => match.test([book.title, book.authors]))
     } else {
       showingBooks = books
     }
@@ -48,7 +49,6 @@ class SearchBooks extends Component {
               placeholder="Search by title or author"
               value={query}
               onChange={(event) => {
-                this.props.search(event.target.value)
                 this.updateQuery(event.target.value)
              }}
                />
@@ -56,28 +56,8 @@ class SearchBooks extends Component {
           </div>
         </div>
         <div className="search-books-results">
-          <ol className="books-grid">
-          {showingBooks.map((book) => (
-            <li key={book.id}>
-              <div className="book">
-                <div className="book-top">
-                  <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${book.imageLinks.thumbnail})` }} />
-                  <div className="book-shelf-changer">
-                    <select>
-                      <option value="move" disabled>Move to...</option>
-                      <option value="currentlyReading">Currently Reading</option>
-                      <option value="wantToRead">Want to Read</option>
-                      <option value="read">Read</option>
-                      <option value="none">None</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="book-title">{book.title}</div>
-                <div className="book-authors">{book.authors}</div>
-              </div>
-            </li>
-          ))}
-          </ol>
+          {/* Use Book Component */}
+          <Book set={showingBooks} />
         </div>
       </div>
     )
