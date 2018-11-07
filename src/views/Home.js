@@ -21,7 +21,7 @@ componentDidMount() {
   BooksAPI.getAll()
       .then((books) => {
         this.setState({
-          books
+          books: books
         });
         console.log(books)
     });
@@ -30,6 +30,7 @@ componentDidMount() {
 getBooks(name){
 	return this.state.books.filter((book) => book.shelf === name)
 }
+
   render() {
     return (
       <div className="list-books">
@@ -37,7 +38,7 @@ getBooks(name){
           <h1>MyReads</h1>
         </div>
         <div className="list-books-content">
-            {this.props.shelves.map((bookshelf) => (
+            {this.shelves.map((bookshelf) => (
 						  <div key={bookshelf.id}>
 				 				<BookShelf
                   title={bookshelf.title}

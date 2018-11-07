@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 
 class Book extends Component {
   render() {
-      const { onShelf } = this.props
+      const { set } = this.props
       let showingBooks
 
-      showingBooks = onShelf
-      console.log(onShelf.shelf)
+      showingBooks = set
+
     return (
 
       <ol className="books-grid">
