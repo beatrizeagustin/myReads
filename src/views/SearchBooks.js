@@ -4,8 +4,32 @@ import { Link } from 'react-router-dom'
 import escapeRegExp from 'escape-string-regexp'
 /* import sortBy from 'sort-by' */
 import Book from '../Components/Book'
+import * as BooksAPI from "../BooksAPI";
 
 class SearchBooks extends Component {
+
+    state = {
+        searchBooks: [],
+        query: '',
+        showingBooks: [],
+    };
+
+    searches = (query) => {
+        BooksAPI.search(query)
+            .then((response) => {
+                if (!response.error) {
+                    this.setState({
+                        searchBooks: response
+                    });
+                }
+            })
+            .catch((error) => {
+                if (error.status === 403) {
+
+                }
+            })
+    };
+
   updateQuery = (query) => {
     this.setState({ query: query.trim()})
   }
@@ -15,15 +39,13 @@ class SearchBooks extends Component {
   }
 
   render() {
-    const { searchBooks } = this.props
-    const { query } = this.props
-    let showingBooks = []
+    const { query } = this.state
 
-    if (query) {
+    if (query != '') {
       const match = new RegExp(escapeRegExp(query), 'i')
-      showingBooks = searchBooks.filter((book) => match.test([book.title, book.authors]))
+        this.state.showingBooks = this.state.searchBooks.filter((book) => match.test([book.title, book.authors]))
     } else {
-      showingBooks = searchBooks
+        this.state.showingBooks = [];
     }
 
     return (
@@ -46,7 +68,7 @@ class SearchBooks extends Component {
               placeholder="Search by title or author"
               value={query}
               onChange={(event) => {
-                this.props.searches(event.target.value)
+                this.searches(event.target.value)
                 this.updateQuery(event.target.value)
              }}
                />
@@ -55,7 +77,7 @@ class SearchBooks extends Component {
         </div>
         <div className="search-books-results">
           {/* Use Book Component */}
-          <Book set={showingBooks} />
+          <Book set={this.state.showingBooks} />
         </div>
       </div>
     )

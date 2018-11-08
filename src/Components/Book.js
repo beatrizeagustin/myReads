@@ -1,20 +1,30 @@
 import React, { Component } from 'react'
 
 class Book extends Component {
-  render() {
-    let showingBooks
+state = {
+  toShelf: this.props.set.shelf
+}
 
-    showingBooks = this.props.set
+changeShelf = (book, event) => {
+     this.props.moveShelf(this.props.set, event.target.value);
+      this.setState({
+          toShelf: event.target.value
+   });
+   console.log(book)
+ }
+
+render() {
     return (
-
       <ol className="books-grid">
-        {showingBooks.map((book) => (
+        {this.props.set.map((book) => (
           <li key={book.id}>
             <div className="book">
               <div className="book-top">
-                <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${book.imageLinks.thumbnail})` }} />
+                <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${book.imageLinks.smallThumbnail})` }} />
                   <div className="book-shelf-changer">
-                    <select>
+                    <select
+                      value={this.state.toShelf}
+                      onChange={(e) => this.changeShelf(book, e)}>
                       <option value="move" disabled>Move to...</option>
                       <option value="currentlyReading">Currently Reading</option>
                       <option value="wantToRead">Want to Read</option>
