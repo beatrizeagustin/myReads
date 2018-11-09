@@ -25,7 +25,9 @@ class SearchBooks extends Component {
             })
             .catch((error) => {
                 if (error.status === 403) {
-
+                  this.setState({
+                    searchBooks: []
+                  })
                 }
             })
     };

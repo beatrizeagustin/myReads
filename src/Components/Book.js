@@ -6,7 +6,7 @@ state = {
 }
 
 changeShelf = (book, event) => {
-     this.props.moveShelf(this.props.set, event.target.value);
+     this.props.moveShelf(book, event.target.value);
       this.setState({
           toShelf: event.target.value
    });
@@ -20,7 +20,7 @@ render() {
           <li key={book.id}>
             <div className="book">
               <div className="book-top">
-                <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${book.imageLinks.smallThumbnail})` }} />
+                <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${book.imageLinks})` }} />
                   <div className="book-shelf-changer">
                     <select
                       value={this.state.toShelf}
