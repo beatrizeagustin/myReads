@@ -1,17 +1,11 @@
 import React, { Component } from 'react'
+import bookImg from "../icons/ImageNotFound.jpg"
 
 class Book extends Component {
-state = {
-  toShelf: this.props.set.shelf
-}
 
-changeShelf = (book, event) => {
-     this.props.moveShelf(book, event.target.value);
-      this.setState({
-          toShelf: event.target.value
-   });
-   console.log(book)
- }
+  changeShelf = (book, event) => {
+       this.props.moveShelf(book, event.target.value);
+   }
 
 render() {
     return (
@@ -20,16 +14,16 @@ render() {
           <li key={book.id}>
             <div className="book">
               <div className="book-top">
-                <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${book.imageLinks})` }} />
+                <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${book.imageLinks ? book.imageLinks.smallThumbnail : bookImg})` }} />
                   <div className="book-shelf-changer">
                     <select
-                      value={this.state.toShelf}
+                      value={book.shelf}
                       onChange={(e) => this.changeShelf(book, e)}>
-                      <option value="move" disabled>Move to...</option>
-                      <option value="currentlyReading">Currently Reading</option>
-                      <option value="wantToRead">Want to Read</option>
-                      <option value="read">Read</option>
-                      <option value="none">None</option>
+                      <option value={"move"} disabled>Move to...</option>
+                      <option value={"currentlyReading"}>Currently Reading</option>
+                      <option value={"wantToRead"}>Want to Read</option>
+                      <option value={"read"}>Read</option>
+                      <option value={"none"}>None</option>
                     </select>
                   </div>
                 </div>

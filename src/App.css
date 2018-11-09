@@ -162,6 +162,11 @@ body, .app {
 }
 
 /* book cover */
+.book-cover[style*="background-image: url("][style*="/static/media/ImageNotFound.d6cf9bfd.jpg"] {
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: contain !important;
+}
 
 .book-cover {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
