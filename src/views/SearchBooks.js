@@ -8,45 +8,46 @@ import * as BooksAPI from "../BooksAPI";
 
 class SearchBooks extends Component {
 
-   state = {
-      searchBooks: [],
-      showingBooks: [],
-      query: ''
-    };
+  state = {
+    showingBooks: [],
+    searchBooks: [],
+    query: ''
+  };
 
-    searches = (query) => {
-        BooksAPI.search(query)
-            .then(books => {
-              if (!books.error && books.length > 0) {
-                  this.setState({
-                      searchBooks: books
-                  });
+  searches = (query) => {
+    BooksAPI.search(query)
+      .then(books => {
+        // error handle when no books found
+        if (!books.error && books.length > 0) {
+          this.setState({
+            searchBooks: books
+          });
+          // set searched books shelf with none
+          let matchedBooks = books.map(book => {
+            book.shelf = "none";
+            // interates through book state and places shelf state
+            this.props.books.forEach(stateBook => {
+              if (book.id === stateBook.id) {
+                book.shelf = stateBook.shelf;
               }
-           if (books) {
-                  books.map((book) => {
-                   this.state.searchBooks.map((nbook) => {
-                      (nbook.id === book.id ? book.shelf = nbook.shelf: 'none');
-                    });
-                  });
-                  this.setState({
-                    searchBooks: books
-                  })
-                  console.log(books)
-              } else {
-                this.setState({
-                    searchBooks: []
-                })
-              }
-            })
-            .catch((error) => {
-                if (error.status === 403) {
+            });
+            return book;
+          });
+          // sets matchedBooks into searchBooks
+          this.setState({
+            searchBooks: matchedBooks
+          })
+        }
+      })
+      .catch((error) => {
+        if (error.status === 403) {
 
-                }
-            })
+        }
+      })
     };
 
   updateQuery = (query) => {
-    this.setState({ query: query})
+      this.setState({ query: query})
   }
  /*
   clearQuery = () => {
@@ -55,12 +56,13 @@ class SearchBooks extends Component {
  */
   render() {
     const { query } = this.state
-
+    // filter books when user search
     if (query !== '') {
       const match = new RegExp(escapeRegExp(query), 'i')
-        this.state.showingBooks = this.state.searchBooks.filter((book) => match.test([book.title, book.authors]))
+      this.state.showingBooks = this.state.searchBooks.filter((book) => match.test([book.title, book.authors]))
     } else {
-        this.state.showingBooks = [];
+      this.state.showingBooks = this.state.searchBooks
+
     }
 
     return (

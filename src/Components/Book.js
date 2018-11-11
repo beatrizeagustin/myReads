@@ -2,18 +2,19 @@ import React, { Component } from 'react'
 import bookImg from "../icons/ImageNotFound.jpg"
 
 class Book extends Component {
-
+  // function that passes value to moveShelf
   changeShelf = (book, event) => {
        this.props.moveShelf(book, event.target.value);
    }
 
-render() {
+  render() {
     return (
       <ol className="books-grid">
         {this.props.set.map((book) => (
           <li key={book.id}>
             <div className="book">
               <div className="book-top">
+               {/* unfound thumbnail hnadled in CSS */}
                 <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${book.imageLinks ? book.imageLinks.smallThumbnail : bookImg})` }} />
                   <div className="book-shelf-changer">
                     <select

@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import BookShelf from '../Components/BookShelf'
 import AddSearchButton from '../Components/AddSearchButton'
-import * as BooksAPI from '../BooksAPI'
 
 class Home extends Component {
-  state= {
+/*  state= {
     books: []
-  }
+  } */
+  // set each shelf with with title and shelf value
    constructor(props){
         super(props);
 
@@ -16,17 +16,17 @@ class Home extends Component {
             {title: 'Read', shelf: 'read'}
         ]
     }
-
+    // sets up each book with a shelf name
     getBooks(name){
-       return this.state.books.filter((book) => book.shelf === name)
+       return this.props.books.filter((book) => book.shelf === name)
       /* return this.props.showingBooks.filter((book) => book.shelf === name) */
     }
-
-    moveShelf = (newBook, newShelf) => {
+    // uses update function to change shelf accordingly
+/*    moveShelf = (newBook, newShelf) => {
         BooksAPI.update(newBook, newShelf).then(() => {
             newBook.shelf = newShelf
             this.setState(state => ({
-                books: state.books.filter(book => book.id !== newBook.id).concat([newBook])
+                books: this.props.books.filter(book => book.id !== newBook.id).concat([newBook])
             }))
         })
     }
@@ -39,7 +39,7 @@ class Home extends Component {
                 });
             });
 
-    }
+    } */
 
 
   render() {
@@ -49,6 +49,7 @@ class Home extends Component {
           <h1>MyReads</h1>
         </div>
         <div className="list-books-content">
+          {/* interate through each shelf assigning title and shelf */}
             {this.shelves.map((bookshelf, i) => (
               <div key={i}>
                     <BookShelf
@@ -58,6 +59,7 @@ class Home extends Component {
                 </div>
 			))}
         </div>
+          {/* search button component */}
           <AddSearchButton/>
       </div>
     )
