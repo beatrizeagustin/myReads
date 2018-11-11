@@ -59,6 +59,7 @@ class SearchBooks extends Component {
     // filter books when user search
     if (query !== '') {
       const match = new RegExp(escapeRegExp(query), 'i')
+      // !! rewrite for proper setState
       this.state.showingBooks = this.state.searchBooks.filter((book) => match.test([book.title, book.authors]))
     } else {
       this.state.showingBooks = this.state.searchBooks
