@@ -29,7 +29,7 @@ class SearchBooks extends Component {
               let matchedBooks = books.map(book => {
                 book.shelf = "none";
                 // interates through book state and places shelf state
-                this.props.state.books.forEach(stateBook => {
+                this.props.books.forEach(stateBook => {
                   if (book.id === stateBook.id) {
                     book.shelf = stateBook.shelf;
                   }
@@ -97,7 +97,7 @@ class SearchBooks extends Component {
           <Book
             moveShelf={this.props.moveShelf}
             set={this.state.searchBooks} />
-            // hides books if searches() finds no results
+            {/* hides books if searches() finds no results */}
             <h2 hidden={!this.state.noResults}>No Search Results Found</h2>
 
         </div>
