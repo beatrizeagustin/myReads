@@ -6,4 +6,3 @@ Built With:
 - React.js
 - BooksAPI provided by udacity
 - React Router
-- Escape RegExp package
