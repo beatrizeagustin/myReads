@@ -1,70 +1,70 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 /* import PropTypes from 'prop-types' */
-import escapeRegExp from 'escape-string-regexp'
 /* import sortBy from 'sort-by' */
 import Book from '../Components/Book'
 import * as BooksAPI from "../BooksAPI";
 
 class SearchBooks extends Component {
 
-  state = {
-    showingBooks: [],
-    searchBooks: [],
-    query: ''
-  };
+   state = {
+      searchBooks: [],
+      query: '',
+      noResults: false,
+    };
 
-  searches = (query) => {
-    BooksAPI.search(query)
-      .then(books => {
-        // error handle when no books found
-        if (!books.error && books.length > 0) {
-          this.setState({
-            searchBooks: books
-          });
-          // set searched books shelf with none
-          let matchedBooks = books.map(book => {
-            book.shelf = "none";
-            // interates through book state and places shelf state
-            this.props.books.forEach(stateBook => {
-              if (book.id === stateBook.id) {
-                book.shelf = stateBook.shelf;
-              }
-            });
-            return book;
-          });
-          // sets matchedBooks into searchBooks
-          this.setState({
-            searchBooks: matchedBooks
+    searches = (query) => {
+      if (query) {
+        this.setState({
+          noResults: false
+      });
+        BooksAPI.search(query)
+          .then(books => {
+            if (books.length > 0) {
+              // if books query length 0, set state
+              this.setState({
+                searchBooks: books
+              });
+              // set searched books shelf with none
+              let matchedBooks = books.map(book => {
+                book.shelf = "none";
+                // interates through book state and places shelf state
+                this.props.state.books.forEach(stateBook => {
+                  if (book.id === stateBook.id) {
+                    book.shelf = stateBook.shelf;
+                  }
+                });
+                return book;
+              });
+              // sets matchedBooks into searchBooks
+              this.setState({
+                searchBooks: matchedBooks
+              });
+            } else {
+              // if no results, setting noResults to display 'no results' message
+              this.setState({
+                noResults: true,
+                searchBooks: []
+              })
+            }
           })
+        } else {
+           // ** if query is empty, set searchBooks to empty array
+          this.setState({
+            searchBooks: []
+          });
         }
-      })
-      .catch((error) => {
-        if (error.status === 403) {
-
-        }
-      })
     };
 
   updateQuery = (query) => {
-      this.setState({ query: query})
-  }
+    this.setState({ query: query})
+  };
  /*
   clearQuery = () => {
     this.setState({ query: ''})
   }
  */
   render() {
-    const { query } = this.state
-    // filter books when user search
-    if (query !== '') {
-      const match = new RegExp(escapeRegExp(query), 'i')
-      // !! rewrite for proper setState
-      this.state.showingBooks = this.state.searchBooks.filter((book) => match.test([book.title, book.authors]))
-    } else {
-      this.state.showingBooks = this.state.searchBooks
-
-    }
 
     return (
       <div className="search-books">
@@ -83,7 +83,7 @@ class SearchBooks extends Component {
             <input
               type="text"
               placeholder="Search by title or author"
-              value={query}
+              value={this.state.query}
               onChange={(event) => {
                 this.searches(event.target.value)
                 this.updateQuery(event.target.value)
@@ -96,7 +96,10 @@ class SearchBooks extends Component {
           {/* Use Book Component */}
           <Book
             moveShelf={this.props.moveShelf}
-            set={this.state.showingBooks} />
+            set={this.state.searchBooks} />
+            // hides books if searches() finds no results
+            <h2 hidden={!this.state.noResults}>No Search Results Found</h2>
+
         </div>
       </div>
     )
